@@ -2,7 +2,7 @@
 resource "aws_internet_gateway" "main" {
   vpc_id       = aws_vpc.main.id
   tags = {
-    Name = "timing-1"
+    Name = var.project_name
     Terraform = "true"
     Environment = "DEV"
   }
@@ -14,7 +14,7 @@ resource "aws_vpc" "main" {
   enable_dns_support = true
   enable_dns_hostnames = true
   tags = {
-    Name = "timing-1"
+    Name = var.project_name
     Terraform = "true"
     Environment = "DEV"
   }
@@ -24,7 +24,7 @@ resource "aws_subnet" "public_subnet" {
     vpc_id = aws_vpc.main.id
     cidr_block       = "10.0.1.0/24"
     tags = {
-      Name = "timing-1-public-subnet"
+      Name = "${var.project_name}-public-subnet"
       Terraform = "true"
       Environment = "DEV"
   }
@@ -38,7 +38,7 @@ resource "aws_subnet" "public_subnet" {
     gateway_id = aws_internet_gateway.main.id
      }
    tags = {
-      Name = "timing-1-public-rt"
+      Name = "${var.project_name}-public-rt"
       Terraform = "true"
       Environment = "DEV"
   }
@@ -53,7 +53,7 @@ resource "aws_subnet" "private_subnet" {
     vpc_id = aws_vpc.main.id
     cidr_block  = "10.0.11.0/24"
     tags = {
-      Name = "timing-1-private-subnet"
+      Name = "${var.project_name}-private-subnet"
       Terraform = "true"
       Environment = "DEV"
   }
@@ -63,7 +63,7 @@ resource "aws_route_table" "private_route_table" {
      vpc_id = aws_vpc.main.id
 
    tags = {
-      Name = "timing-1-private-rt"
+      Name = "${var.project_name}-private-rt"
       Terraform = "true"
       Environment = "DEV"
   }
@@ -78,7 +78,7 @@ resource "aws_subnet" "database_subnet" {
     vpc_id = aws_vpc.main.id
     cidr_block  = "10.0.21.0/24"
     tags = {
-      Name = "timing-1-database-subnet"
+      Name = "${var.project_name}-database-subnet"
       Terraform = "true"
       Environment = "DEV"
   }
@@ -88,7 +88,7 @@ resource "aws_route_table" "database_route_table" {
      vpc_id = aws_vpc.main.id
 
    tags = {
-      Name = "timing-1-database-rt"
+      Name = "${var.project_name}-database-rt"
       Terraform = "true"
       Environment = "DEV"
   }
