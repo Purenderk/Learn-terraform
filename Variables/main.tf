@@ -6,6 +6,16 @@ resource "aws_vpc" "main" {
   tags = var.tags
   }
 
+  resource "aws_subnet" "public"{
+    for_each = var.public_subnets
+    vpc_id = aws_vpc.main.id
+    cidr_block = each.value.cidr_block
+    availability_zone = each.value.az
+    tags = {
+      Name = each.value.Name
+    }
+  }
+
 # Security group for postgress RDS, 5432
  resource "aws_security_group" "allow_tls" {
   name        = "allow_postgress"
@@ -28,7 +38,12 @@ resource "aws_vpc" "main" {
     ipv6_cidr_blocks = ["::/0"]
   }
 
-  tags = var.tags
+  tags = merge(
+    var.tags,
+    {
+      Name = "timing-RDS-SG"
+    }
+  )
 }
 
 #this will be created inside default vpc
@@ -47,3 +62,4 @@ resource "aws_instance" "condition"{
   ami = "ami-012b9156f755804f5"
   instance_type = var.isProd ? "t3.large" : "t2.micro"
   }
+
