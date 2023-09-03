@@ -26,3 +26,23 @@ variable "tags"{
       Environment = "DEV"
     }
 }
+
+variable "postgress_port"{
+    type = number
+    default= 5432
+}
+
+variable "cidr_list"{
+    type = list
+    default= ["10.0.1.0/24","10.0.2.0/24"]
+}
+
+variable "instance_names"{
+    type = list
+    default= ["web-server","api-server","DB-server"]
+}
+
+variable "IsProd"{
+    type=bool
+    default= true
+}
